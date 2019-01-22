@@ -1,5 +1,6 @@
 ---
 title: "Biostat M280 Homework 1"
+author: "Diyang Wu <wudiyangabc@hotmail.com>"
 subtitle: Due Jan 25 @ 11:59PM
 output: html_document
 ---
