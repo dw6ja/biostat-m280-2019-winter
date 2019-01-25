@@ -49,6 +49,13 @@ To display the number of lines in each `csv` flie, we use the bash command `wc`,
     
 3. Display the 3 files that have the least number of lines
 
+  **Solution**
+
+To display the 3 files that have the least number of lines, we use the bash command `wc` to count the line number, and use `|` to pipe the output to sort and print the 3 files that have the least number of lines.
+    ```{bash, eval=FALSE}
+    wc -l /home/m280data/NYCHVS/*.csv | sort | head -3
+    ```
+
 4. What's the output of following bash script?
     ```{bash, eval=FALSE}
     for datafile in /home/m280data/NYCHVS/*.csv
@@ -57,6 +64,8 @@ To display the number of lines in each `csv` flie, we use the bash command `wc`,
       done
     ```
 
+
+  
 0. What unique values does the second variable `borough` take in `NYCHVS_1991.csv`? Tabulate how many times each value appears.
 
 ## Q3. More fun with shell
