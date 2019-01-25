@@ -209,7 +209,14 @@ ls -l /home/m280data/NYCHVS
 ```</code></pre>
 <p>Please, do <strong>not</strong> put these data files into Git; they are big. Also do <strong>not</strong> copy them into your directory. Just read from the data folder <code>/home/m280data/NYCHVS</code> directly. Use Bash commands to answer following questions.</p>
 <ol style="list-style-type: decimal">
-<li><p>Display the first few lines of <code>NYCHVS_1991.csv</code>.</p></li>
+<li>Display the first few lines of <code>NYCHVS_1991.csv</code>.</li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>To display the first few lines of a document, use the bash command ‘head’.</p>
+<pre><code>```bash
+head /home/m280data/NYCHVS/NYCHVS_1991.csv
+```</code></pre>
+<ol style="list-style-type: decimal">
 <li><p>Display number of lines in each <code>csv</code> file.</p></li>
 <li><p>Display the 3 files that have the least number of lines</p></li>
 <li><p>What’s the output of following bash script?</p>
