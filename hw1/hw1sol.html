@@ -244,7 +244,8 @@ wc -l /home/m280data/NYCHVS/*.csv | sort | head -3
 <ol start="5" style="list-style-type: decimal">
 <li>What unique values does the second variable <code>borough</code> take in <code>NYCHVS_1991.csv</code>? Tabulate how many times each value appears.</li>
 </ol>
-<p><strong>Solution</strong> To solve this problem, we need to combine <code>awk</code> command and <code>uniq -c</code> commad. We want to first print out the unique values in the second variable, then pipe this output and use <code>uniq -c</code> to count the occurrences of each value.</p>
+<p><strong>Solution</strong></p>
+<p>To solve this problem, we need to combine <code>awk</code> command and <code>uniq -c</code> commad. We want to first print out the unique values in the second variable, then pipe this output and use <code>uniq -c</code> to count the occurrences of each value.</p>
 <pre><code>```bash
 awk -F ',' '{if (NR &gt; 2) print $2}' /home/m280data/NYCHVS/NYCHVS_1991.csv |
 sort | uniq -c
@@ -257,7 +258,8 @@ sort | uniq -c
 <pre class="bash"><code>curl https://www.gutenberg.org/files/1342/1342.txt &gt; pride_and_prejudice.txt</code></pre>
 <p>Do <strong>not</strong> put this text file <code>pride_and_prejudice.txt</code> in Git. Using a <code>for</code> loop, how would you tabulate the number of times each of the four characters is mentioned?</p></li>
 </ol>
-<p><strong>Solution</strong> To print the number of occurrences of the 4 names, we can use <code>grep</code>, and count the number. For each name, we’ll do a grep, so the <code>for</code> loop will be looped on the names.</p>
+<p><strong>Solution</strong></p>
+<p>To print the number of occurrences of the 4 names, we can use <code>grep</code>, and count the number. For each name, we’ll do a grep, so the <code>for</code> loop will be looped on the names.</p>
 <pre><code>```bash
 for i in Darcy Elizabeth Jane Lydia
 do
@@ -270,6 +272,10 @@ done
 <pre class="bash"><code>echo 'hello, world' &gt; test1.txt</code></pre>
 <p>and</p>
 <pre class="bash"><code>echo 'hello, world' &gt;&gt; test2.txt</code></pre></li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>The first command will direct <code>hello, world</code> to the output source <code>test1.txt</code>, and wipe out the previous contents. The second command will append <code>hello, world</code> to <code>test2.txt</code> without doing anything to the previous content.</p>
+<ol start="3" style="list-style-type: decimal">
 <li><p>Using your favorite text editor (e.g., <code>vi</code>), type the following and save the file as <code>middle.sh</code>:</p>
 <pre class="bash"><code>#!/bin/sh
 # Select lines from the middle of a file.
@@ -279,6 +285,16 @@ head -n &quot;$2&quot; &quot;$1&quot; | tail -n &quot;$3&quot;</code></pre>
 <pre class="bash"><code>./middle.sh pride_and_prejudice.txt 20 5</code></pre>
 <p>Explain the output. Explain the meaning of <code>&quot;$1&quot;</code>, <code>&quot;$2&quot;</code>, and <code>&quot;$3&quot;</code> in this shell script. Why do we need the first line of the shell script?</p></li>
 </ol>
+<p><strong>Solution</strong></p>
+<p>First we create a textfile.</p>
+<pre><code>```bash
+touch middle.sh
+```</code></pre>
+<p>Then change the mood to be executable by owner.</p>
+<pre><code>```bash
+chmod 700 middle.sh
+```</code></pre>
+<p>And after we run the execution command, we get the 16th to 20th lines of the textfifles <code>pride_and_prejudice</code>. The first line in <code>middle.sh</code> tells us we are transferring to shell <code>sh</code>, instead of shell <code>bash</code>. <code>$1</code>, <code>$2</code> and <code>$3</code> are ordering the variable. In the execuation command, we have <code>pride_and_prejudice.txt</code>, <code>20</code> and <code>5</code> as the first, second and third variable. So in <code>middle.sh</code>, we refer to these three variables as <code>$1</code>, <code>$2</code> and <code>$3</code> respectively. So <code>head -n &quot;$2&quot; &quot;$1&quot; | tail -n &quot;$3&quot;</code> translates to <code>head -n 20 pride_and_prejudice.txt | tail -n 5</code>.</p>
 </div>
 <div id="q4.-r-batch-run" class="section level2">
 <h2>Q4. R Batch Run</h2>

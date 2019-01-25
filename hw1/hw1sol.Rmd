@@ -71,6 +71,7 @@ The output is the filenmame under the directory `/home/m280data/NYCHVS` which co
 5. What unique values does the second variable `borough` take in `NYCHVS_1991.csv`? Tabulate how many times each value appears.
 
   **Solution**
+
 To solve this problem, we need to combine `awk` command and `uniq -c` commad. We want to first print out the unique values in the second variable, then pipe this output and use `uniq -c` to count the occurrences of each value.
     ```{bash, eval=FALSE}
     awk -F ',' '{if (NR > 2) print $2}' /home/m280data/NYCHVS/NYCHVS_1991.csv |
@@ -86,6 +87,7 @@ To solve this problem, we need to combine `awk` command and `uniq -c` commad. We
 Do **not** put this text file `pride_and_prejudice.txt` in Git. Using a `for` loop, how would you tabulate the number of times each of the four characters is mentioned?
 
   **Solution**
+
 To print the number of occurrences of the 4 names, we can use `grep`, and count the number. For each name, we'll do a grep, so the `for` loop will be looped on the names. 
     ```{bash, eval=FALSE}
     for i in Darcy Elizabeth Jane Lydia
@@ -104,6 +106,10 @@ To print the number of occurrences of the 4 names, we can use `grep`, and count 
     echo 'hello, world' >> test2.txt
     ```
 
+  **Solution**
+  
+The first command will direct `hello, world` to the output source `test1.txt`, and wipe out the previous contents. The second command will append `hello, world` to `test2.txt` without doing anything to the previous content.
+
 3. Using your favorite text editor (e.g., `vi`), type the following and save the file as `middle.sh`:
     ```{bash eval=FALSE}
     #!/bin/sh
@@ -116,6 +122,20 @@ Using `chmod` make the file executable by the owner, and run
     ./middle.sh pride_and_prejudice.txt 20 5
     ```
 Explain the output. Explain the meaning of `"$1"`, `"$2"`, and `"$3"` in this shell script. Why do we need the first line of the shell script?
+
+  **Solution**
+  
+First we create a textfile.
+    ```{bash eval=FALSE}
+    touch middle.sh
+    ```
+Then change the mood to be executable by owner.
+    ```{bash eval=FALSE}
+    chmod 700 middle.sh
+    ```
+And after we run the execution command, we get the 16th to 20th lines of the textfifles `pride_and_prejudice`.
+The first line in `middle.sh` tells us we are transferring to shell `sh`, instead of shell `bash`.
+`$1`, `$2` and `$3` are ordering the variable. In the execuation command, we have `pride_and_prejudice.txt`, `20` and `5` as the first, second and third variable. So in `middle.sh`, we refer to these three variables as `$1`, `$2` and `$3` respectively. So `head -n "$2" "$1" | tail -n "$3"` translates to `head -n 20 pride_and_prejudice.txt | tail -n 5`.
 
 ## Q4. R Batch Run
 
