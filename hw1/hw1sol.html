@@ -305,13 +305,77 @@ chmod 700 middle.sh
 \]</span> for both methods.</li>
 </ol>
 <p><strong>Solution</strong></p>
-<p>For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of running that Rscript.</p>
+<p>For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.</p>
 <pre><code>```bash
+cat runSim.R
+```
+
+```bash
 Rscript runSim.R n=100 dist=\&quot;gaussian\&quot; seed=3 rep=4
 ```</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Modify the <a href="http://hua-zhou.github.io/teaching/biostatm280-2019winter/slides/02-linux/autoSim.R"><code>autoSim.R</code></a> script to run simulations with combinations of sample sizes <code>nVals = seq(100, 500, by=100)</code> and distributions <code>distTypes = c(&quot;gaussian&quot;, &quot;t1&quot;, &quot;t5&quot;)</code> and write output to appropriately named files. Use <code>rep = 50</code>, and <code>seed = 280</code>.</p></li>
-<li><p>Write an R script to collect simulation results from output files and print average MSEs in a table of format</p></li>
+<li>Modify the <a href="http://hua-zhou.github.io/teaching/biostatm280-2019winter/slides/02-linux/autoSim.R"><code>autoSim.R</code></a> script to run simulations with combinations of sample sizes <code>nVals = seq(100, 500, by=100)</code> and distributions <code>distTypes = c(&quot;gaussian&quot;, &quot;t1&quot;, &quot;t5&quot;)</code> and write output to appropriately named files. Use <code>rep = 50</code>, and <code>seed = 280</code>.</li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.</p>
+<pre><code>```bash
+cat autoSim.R
+```
+
+```
+## # autoSim.R
+## 
+## nVals &lt;- seq(100, 1000, by=100)
+## for (n in nVals) {
+##   for (dist in c(&quot;gaussian&quot;, &quot;t1&quot;, &quot;t5&quot;)) {
+##     oFile &lt;- paste(&quot;n&quot;, n, &quot;dist&quot;, dist, &quot;.txt&quot;, sep=&quot;&quot;)
+##     sysCall &lt;- paste(&quot;nohup Rscript runSim.R n=&quot;, n, &quot; dist=&quot;, 
+##                      shQuote(shQuote(dist)), 
+##                      &quot; seed=&quot;, 280, &quot; rep=&quot;, 50, &quot; &gt; &quot;, oFile, sep=&quot;&quot;)
+##     system(sysCall)
+##     print(paste(&quot;sysCall=&quot;, sysCall, sep=&quot;&quot;))
+##   }
+## }
+```
+
+```bash
+Rscript autoSim.R
+```
+
+```
+## [1] &quot;sysCall=nohup Rscript runSim.R n=100 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n100distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=100 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n100distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=100 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n100distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=200 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n200distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=200 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n200distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=200 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n200distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=300 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n300distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=300 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n300distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=300 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n300distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=400 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n400distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=400 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n400distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=400 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n400distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=500 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n500distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=500 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n500distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=500 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n500distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=600 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n600distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=600 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n600distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=600 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n600distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=700 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n700distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=700 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n700distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=700 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n700distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=800 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n800distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=800 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n800distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=800 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n800distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=900 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n900distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=900 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n900distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=900 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n900distt5.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=1000 dist=\&quot;'gaussian'\&quot; seed=280 rep=50 &gt; n1000distgaussian.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=1000 dist=\&quot;'t1'\&quot; seed=280 rep=50 &gt; n1000distt1.txt&quot;
+## [1] &quot;sysCall=nohup Rscript runSim.R n=1000 dist=\&quot;'t5'\&quot; seed=280 rep=50 &gt; n1000distt5.txt&quot;
+```</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Write an R script to collect simulation results from output files and print average MSEs in a table of format</li>
 </ol>
 <table>
 <thead>

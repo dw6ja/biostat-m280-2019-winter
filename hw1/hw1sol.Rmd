@@ -149,12 +149,25 @@ for both methods.
 
   **Solution**
 
-For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of running that Rscript.
+For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.
+    ```{bash eval=FALSE}
+    cat runSim.R
+    ```
     ```{bash eval=FALSE}
     Rscript runSim.R n=100 dist=\"gaussian\" seed=3 rep=4
     ```
     
 2. Modify the [`autoSim.R`](http://hua-zhou.github.io/teaching/biostatm280-2019winter/slides/02-linux/autoSim.R) script to run simulations with combinations of sample sizes `nVals = seq(100, 500, by=100)` and distributions `distTypes = c("gaussian", "t1", "t5")` and write output to appropriately named files. Use `rep = 50`, and `seed = 280`. 
+
+  **Solution**
+  
+For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.
+    ```{bash}
+    cat autoSim.R
+    ```
+    ```{bash}
+    Rscript autoSim.R
+    ```
 
 3. Write an R script to collect simulation results from output files and print average MSEs in a table of format
 
