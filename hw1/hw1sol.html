@@ -238,8 +238,17 @@ wc -l /home/m280data/NYCHVS/*.csv | sort | head -3
   do
     ls $datafile
   done</code></pre></li>
-<li><p>What unique values does the second variable <code>borough</code> take in <code>NYCHVS_1991.csv</code>? Tabulate how many times each value appears.</p></li>
 </ol>
+<p><strong>Solution</strong></p>
+<p>The output is the filenmame under the directory <code>/home/m280data/NYCHVS</code> which contains .csv.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>What unique values does the second variable <code>borough</code> take in <code>NYCHVS_1991.csv</code>? Tabulate how many times each value appears.</li>
+</ol>
+<p><strong>Solution</strong> To solve this problem, we need to combine <code>awk</code> command and <code>uniq -c</code> commad. We want to first print out the unique values in the second variable, then pipe this output and use <code>uniq -c</code> to count the occurrences of each value.</p>
+<pre><code>```bash
+awk -F ',' '{if (NR &gt; 2) print $2}' /home/m280data/NYCHVS/NYCHVS_1991.csv |
+sort | uniq -c
+```</code></pre>
 </div>
 <div id="q3.-more-fun-with-shell" class="section level2">
 <h2>Q3. More fun with shell</h2>

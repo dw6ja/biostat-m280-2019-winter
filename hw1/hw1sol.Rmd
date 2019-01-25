@@ -64,9 +64,18 @@ To display the 3 files that have the least number of lines, we use the bash comm
       done
     ```
 
-
+  **Solution**
   
-0. What unique values does the second variable `borough` take in `NYCHVS_1991.csv`? Tabulate how many times each value appears.
+The output is the filenmame under the directory `/home/m280data/NYCHVS` which contains .csv.
+  
+5. What unique values does the second variable `borough` take in `NYCHVS_1991.csv`? Tabulate how many times each value appears.
+
+  **Solution**
+To solve this problem, we need to combine `awk` command and `uniq -c` commad. We want to first print out the unique values in the second variable, then pipe this output and use `uniq -c` to count the occurrences of each value.
+    ```{bash, eval=FALSE}
+    awk -F ',' '{if (NR > 2) print $2}' /home/m280data/NYCHVS/NYCHVS_1991.csv |
+    sort | uniq -c
+    ```
 
 ## Q3. More fun with shell
 
