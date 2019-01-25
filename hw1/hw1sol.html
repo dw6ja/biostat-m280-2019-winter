@@ -212,12 +212,19 @@ ls -l /home/m280data/NYCHVS
 <li>Display the first few lines of <code>NYCHVS_1991.csv</code>.</li>
 </ol>
 <p><strong>Solution</strong></p>
-<p>To display the first few lines of a document, use the bash command ‘head’.</p>
+<p>To display the first few lines of a document, use the bash command <code>head</code>.</p>
 <pre><code>```bash
 head /home/m280data/NYCHVS/NYCHVS_1991.csv
 ```</code></pre>
-<ol style="list-style-type: decimal">
-<li><p>Display number of lines in each <code>csv</code> file.</p></li>
+<ol start="2" style="list-style-type: decimal">
+<li>Display number of lines in each <code>csv</code> file.</li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>To display the number of lines in each <code>csv</code> flie, we use the bash command <code>wc</code>, with the wilcard expression <code>*</code>.</p>
+<pre><code>```bash
+wc -l /home/m280data/NYCHVS/*.csv
+```</code></pre>
+<ol start="3" style="list-style-type: decimal">
 <li><p>Display the 3 files that have the least number of lines</p></li>
 <li><p>What’s the output of following bash script?</p>
 <pre class="bash"><code>for datafile in /home/m280data/NYCHVS/*.csv
