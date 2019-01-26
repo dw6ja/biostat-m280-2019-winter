@@ -2,7 +2,7 @@
 result <- c() #store the output of the test results
 N <- c() #store the value of n
 i <- 1
-nVals <- seq(100, 1000, by=100)
+nVals <- seq(100, 500, by=100)
 for (dist in c("gaussian", "t1", "t5")) {
   for (n in nVals) {
     oFile <- paste("/home/wudiyangabc/biostat-m280-2019-winter/hw1/", "n", n, 
@@ -14,14 +14,14 @@ for (dist in c("gaussian", "t1", "t5")) {
   }
 }
 #we only need the first 20 of the N vector
-N = head(N,20)
+N = head(N,10)
 
 # define the second column
 method <- rep(c('PrimeAvg','SampAvg'), 5)
 
 # combine the results and make the table
-table <- data.frame(n=N, Method=method, Gaussian=result[1:20], t_1=result[21:40]
-                    , t_5=result[41:60])
+table <- data.frame(n=N, Method=method, Gaussian=result[1:10], t_1=result[11:20]
+                    , t_5=result[21:30])
 table
 
 
