@@ -162,10 +162,10 @@ For this problem we write a Rscript. Details are wriiten in that script. Here we
   **Solution**
   
 For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.
-    ```{bash}
+    ```{bash eval=FALSE}
     cat autoSim.R
     ```
-    ```{bash}
+    ```{bash eval=FALSE}
     Rscript autoSim.R
     ```
 
@@ -184,3 +184,12 @@ For this problem we write a Rscript. Details are wriiten in that script. Here we
 | 500 | PrimeAvg |       |       |          |
 | 500 | SampAvg  |       |       |          |
 
+  **Solution**
+  
+For this problem we write a Rscript. Details are wriiten in that script. Here we give the command of looking at and running that Rscript.
+    ```{bash eval=FALSE}
+    cat collection.R
+    ```
+    ```{bash eval=FALSE}
+    Rscript collection.R
+    ```
