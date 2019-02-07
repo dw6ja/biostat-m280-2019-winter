@@ -50,22 +50,22 @@ The FizzBuzz test is a common programming interview question used to establish i
 Approach to the problem:
 
 ```{r}
+check_three_multiples <- function (x) {
+  if (element %% 3 == 0) {return(1)}
+  else {return(0)}
+}
+
+check_five_multiples <- function (x) {
+  if (element %% 5 == 0) {return(1)}
+  else {return(0)}
+}
+
 check_candidate <- function (x) {
   if (is.numeric(x) != 1 | is.na(x) == 1 | is.infinite(x) == 1 | x %% 1 != 0) {
-    print(paste(element, "is not a number, please input a number OK?"))
+    print(paste("Please enter a finite integer number."))
     return (0)
   }
-  return (1)
-}
-
-check_three <- function (element) {
-  if (element %% 3 == 0) return(1)
-  return(0)
-}
-
-check_five <- function (element) {
-  if (element %% 5 == 0) return(1)
-  return(0)
+  else {return (1)}
 }
 
 FizzBuzz <- function (x) {
