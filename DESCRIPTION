@@ -1,23 +1,21 @@
 Title: Biostats 203B Homework 2
 Date: 2019-02-06
 Author: Diyang Wu
-output: html_document
 Authors@R: person(given = "Diyang", family = "Wu", email = "wudiyangabc@hotmail.com",
 	role = c("aut", "cre"))
 Depends:
 	R (>= 3.5.2)
 Imports:
-  - rmarkdown
-  - neotoma
-  - purrr
-  - ggplot2
-  - plyr
-  - reshape2
-  - mgcv
-  - Bchron
-  - viridis
-  - dplyr
-  - readr
-  - gridExtra
-  - Rcpp
-
+   rmarkdown,
+   neotoma,
+   purrr,
+   ggplot2,
+   plyr,
+   reshape2,
+   mgcv,
+   Bchron,
+   viridis,
+   dplyr,
+   readr,
+   gridExtra,
+   Rcpp
