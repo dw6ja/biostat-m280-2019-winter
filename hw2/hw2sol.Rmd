@@ -4,6 +4,14 @@ subtitle: Due Feb 8 @ 11:59PM
 output: html_document
 ---
 
+Master Branch Build Status: [![Build Status](https://travis-ci.com/dw6ja/biostat-m280-2019-winter.svg?token=
+n1aThhByBWVNp3dBWZ8f&branch=master)]
+(https://travis-ci.com/dw6ja/biostat-m280-2019-winter)
+
+Develop Branch Build Status: [![Build Status](https://travis-ci.com/dw6ja/biostat-m280-2019-winter.svg?token=
+n1aThhByBWVNp3dBWZ8f&branch=develop)]
+(https://travis-ci.com/dw6ja/biostat-m280-2019-winter)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
