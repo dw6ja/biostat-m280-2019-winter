@@ -51,12 +51,12 @@ Approach to the problem:
 
 ```{r}
 check_three_multiples <- function (x) {
-  if (element %% 3 == 0) {return(1)}
+  if (x %% 3 == 0) {return(1)}
   else {return(0)}
 }
 
 check_five_multiples <- function (x) {
-  if (element %% 5 == 0) {return(1)}
+  if (x %% 5 == 0) {return(1)}
   else {return(0)}
 }
 
