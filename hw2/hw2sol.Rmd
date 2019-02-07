@@ -47,7 +47,7 @@ The FizzBuzz test is a common programming interview question used to establish i
 
   **Solution**
 
-Approach to the problem:
+1. Approach to the problem:
 
 ```{r}
 check_three_multiples <- function (x) {
@@ -89,6 +89,26 @@ FizzBuzz <- function (x) {
 }
 
 
+```
+
+2. Test the function:
+```{r}
+FizzBuzz(3)
+
+FizzBuzz (5)
+
+FizzBuzz(3.4)
+
+FizzBuzz("asdasdf")
+
+x <- c(0,1,3,5)
+FizzBuzz(x)
+
+y <- c(NA, 5, 10)
+FizzBuzz(y)
+
+z <- c(Inf, 3)
+FizzBuzz(z)
 ```
 
 
