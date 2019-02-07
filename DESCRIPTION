@@ -4,7 +4,7 @@ Author: Diyang Wu
 Authors@R: person(given = "Diyang", family = "Wu", email = "wudiyangabc@hotmail.com",
 	role = c("aut", "cre"))
 Depends:
-	R (>= 3.5.2)
+	R (>= 3.5.1)
 Imports:
    rmarkdown,
    neotoma,
