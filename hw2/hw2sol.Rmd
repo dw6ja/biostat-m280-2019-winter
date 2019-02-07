@@ -45,6 +45,48 @@ The FizzBuzz test is a common programming interview question used to establish i
 
 2. Use your FizzBuzz function to display the correct output for a variety of inputs, make sure to show what happens for both good and bad input. 
 
+  **Solution**
+
+Approach to the problem:
+
+```{r}
+check_candidate <- function (x) {
+  if (is.numeric(x) != 1 | is.na(x) == 1 | is.infinite(x) == 1 | x %% 1 != 0) {
+    print(paste(element, "is not a number, please input a number OK?"))
+    return (0)
+  }
+  return (1)
+}
+
+check_three <- function (element) {
+  if (element %% 3 == 0) return(1)
+  return(0)
+}
+
+check_five <- function (element) {
+  if (element %% 5 == 0) return(1)
+  return(0)
+}
+
+FizzBuzz <- function (x) {
+  if (!is.numeric(x)) return ("This vector contains non-numeric element!")
+  
+  for (element in x) {
+    flag = check_integer(element)
+    
+    if (flag) {
+      element <- as.integer(element)
+      if (check_three(element) && check_five(element)) print("FizzBuzz")
+      else if (check_three(element)) print("Fizz")
+      else if (check_five(element)) print("Buzz")
+      else print(paste(element, "is neither Fizz or Buzz"))
+    }
+  }
+}
+
+```
+
+
 ## Q3. Rcpp
 
 1. Read the online book [_Rcpp For Everyone_](https://teuder.github.io/rcpp4everyone_en/) by Masaki E. Tsuda.
