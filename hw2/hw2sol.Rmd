@@ -1,5 +1,6 @@
 ---
 title: "Biostat M280 Homework 2"
+author: "Diyang Wu <wudiyangabc@hotmail.com>"
 subtitle: Due Feb 8 @ 11:59PM
 output: html_document
 ---
@@ -16,19 +17,12 @@ n1aThhByBWVNp3dBWZ8f&branch=develop)]
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<p align="center">
-  <img src="./fizzbuzz.jpg" height="375">
-</p>
 
 ## Q1. Travis CI
 
 1. Read the blog post [_Adding CI To RMarkdown Documents_](http://www.goring.org/resources/Adding_CI_To_RMarkdown.html) by Simon Goring. Understand what is continuous integration (CI) and why we need CI.
 
 2. Set up Travis CI for your homework 2 solution, e.g., `hw2sol.Rmd`. Graders will look for a CI passing badge on the `README.Rmd` page of your repository:
-
-<p align="center">
-  <img src="./passing.svg" height="175">
-</p>
 
 
 ## Q2. FizzBuzz Test
@@ -45,9 +39,14 @@ The FizzBuzz test is a common programming interview question used to establish i
 
 2. Use your FizzBuzz function to display the correct output for a variety of inputs, make sure to show what happens for both good and bad input. 
 
+
   **Solution**
 
 1. Approach to the problem:
+
+To succefully print out integers, we first need to take out elements in the vectors that are not integers. There are several types that I can think of, and they are non-numeric type, Inf, NA and double. So I create a function `check_candidate()` to deal with the types not including non-numeric type. For the non-numeric type, I use the function `as.numeric()` to transfer the vector into a numeric vector, so that the non-numeric string will be NA after transfer, and this NA can be dealt with the `check_candiate()` function. 
+
+After the input problem is solved, we need to decide if the remaining integer is a multiple of 3, 5 or both. `check_three_multiples` and `check_five_multiples`. The rest of printing is trivial.
 
 ```{r}
 check_three_multiples <- function (x) {
@@ -99,7 +98,7 @@ FizzBuzz(3.4)
 
 FizzBuzz("asdasdf")
 
-x <- c(15,1,3,5,"asd")
+x <- c(0,1,2,3,4,5,15,"a")
 FizzBuzz(x)
 
 y <- c(NA, 5, 10)
@@ -118,10 +117,60 @@ FizzBuzz(z)
 
   **Solution**
 
+Approach to the problem:
+
+(Disclaimer: I use help from my friend who is a CS major, from whom I get a lot of suggestions on how to transfer the variable type. However, I code all the stuff myself, and fully understand the mechanism. Forgive me for asking for help, but this problem is beyond my scope of ability. Hope this is not a plagiarism.)
+
+The hardest thing to do FizzBuzz using Rcpp is probably the data type. If we input a data type in R which is a vector that contains both string and int, it is really hard to process in C++ because in C++ the vector does not contain `int` and `char` at the same time. To solve this problem, in C++ script, we first define a `pointer` type variable `string_processed` to catch all the elements from R script. Then, if there's only 0 in the variable, we record 0 with `a`; if there's not 0, we use function `atoi()`. What `atoi()` does is basically trasfer this `pointer` to `int`; if it succeeds, then the variable `temp` that records the trasformation will record the correct integer values, and if it does not succeed, `temp` will record the value 0. We then take out all the `temp` variables that store 0, and claim that they are not integers. Thus by this method, we pick out all the values that are not integers.
+
+The rest of the printing is trivial, following the guide of problem 2. 
+
+
+```{Rcpp}
+#include <Rcpp.h>
+#include <iostream>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+void FizzBuzz_cpp(StringVector input) {
+  int n = input.size();
+  for(int i = 0; i < n; ++i) {
+    char* string_processed = input[i];
+    int a = 0;
+    if (strlen(string_processed) == 1 && string_processed[0] == '0'){
+      a = 0;
+    }
+    else{
+      float temp = atoi(string_processed);
+      if (temp == 0){
+        Rcout << "Please enter finite integer values." << std::endl;
+        continue;
+      }
+      else{
+        a = int(temp);
+      }
+    }
+    if (a % 5 == 0 && a % 3 == 0)
+      Rcout << "FizzBuzz" << std::endl;
+    else if (a % 3 == 0)
+      Rcout << "Fizz" << std::endl;
+    else if (a % 5 == 0)
+      Rcout << "Buzz" << std::endl;
+    else
+      Rcout << a << std::endl;
+  }
+}
+```
+
+
 ```{r}
 library(Rcpp)
-sourceCpp('FizzBuzz.cpp')
 
-x <- c(0,1,3,5,"a")
-FZBZ(x)
+FizzBuzz_cpp("asdasdf")
+
+a <- c(1,2,3,4,5,15,'asd',NA)
+FizzBuzz_cpp(a)
+
+b <- c(NA, 5, 10)
+FizzBuzz_cpp(b)
 ```
