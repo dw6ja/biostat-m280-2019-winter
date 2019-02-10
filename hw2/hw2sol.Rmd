@@ -1,0 +1,176 @@
+---
+title: "Biostat M280 Homework 2"
+author: "Diyang Wu <wudiyangabc@hotmail.com>"
+subtitle: Due Feb 8 @ 11:59PM
+output: html_document
+---
+
+Master Branch Build Status: [![Build Status](https://travis-ci.com/dw6ja/biostat-m280-2019-winter.svg?token=
+n1aThhByBWVNp3dBWZ8f&branch=master)]
+(https://travis-ci.com/dw6ja/biostat-m280-2019-winter)
+
+Develop Branch Build Status: [![Build Status](https://travis-ci.com/dw6ja/biostat-m280-2019-winter.svg?token=
+n1aThhByBWVNp3dBWZ8f&branch=develop)]
+(https://travis-ci.com/dw6ja/biostat-m280-2019-winter)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Q1. Travis CI
+
+1. Read the blog post [_Adding CI To RMarkdown Documents_](http://www.goring.org/resources/Adding_CI_To_RMarkdown.html) by Simon Goring. Understand what is continuous integration (CI) and why we need CI.
+
+2. Set up Travis CI for your homework 2 solution, e.g., `hw2sol.Rmd`. Graders will look for a CI passing badge on the `README.Rmd` page of your repository:
+
+
+## Q2. FizzBuzz Test
+
+The FizzBuzz test is a common programming interview question used to establish if a candidate can actually program in a language that they claim experience in. The problem statement is as follows:
+
+> "Write a program that given a list of numbers as input, prints each number on their own line. But for multiples of three print "Fizz" instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”."
+
+1. Your goal here is to implement FizzBuzz as an R function called `fizzbuzz`. Your fizzbuzz function should conform to the description provided above in terms of output and accept an integer argument, which can either be a scalar or vector. As such, your function should correctly print `Fizz`, `Buzz`, `FizzBuzz`, or the actual number for each integer supplied on a separate line. You should program defensively - validate any input and make sure that you have a sane response to any invalid input.
+
+    You must also include a write up of your implementation that broadly describes how you approached the problem and constructed your solution (think something along the lines of the methods section of a journal article).
+
+    This is not a terribly complex or difficult task, and solutions in R and many other languages are easily Googleable - the point of this exercise is again to get used to the workflow and tools: RStudio, RMarkdown, Git/GitHub, Travis, etc.
+
+2. Use your FizzBuzz function to display the correct output for a variety of inputs, make sure to show what happens for both good and bad input. 
+
+
+  **Solution**
+
+1. Approach to the problem:
+
+To succefully print out integers, we first need to take out elements in the vectors that are not integers. There are several types that I can think of, and they are non-numeric type, Inf, NA and double. So I create a function `check_candidate()` to deal with the types not including non-numeric type. For the non-numeric type, I use the function `as.numeric()` to transfer the vector into a numeric vector, so that the non-numeric string will be NA after transfer, and this NA can be dealt with the `check_candiate()` function. 
+
+After the input problem is solved, we need to decide if the remaining integer is a multiple of 3, 5 or both. `check_three_multiples` and `check_five_multiples`. The rest of printing is trivial.
+
+```{r}
+check_three_multiples <- function (x) {
+  if (x %% 3 == 0) {return(1)}
+  else {return(0)}
+}
+
+check_five_multiples <- function (x) {
+  if (x %% 5 == 0) {return(1)}
+  else {return(0)}
+}
+
+check_candidate <- function (x) {
+  if (is.na(x) == 1 | is.infinite(x) == 1 | x %% 1 != 0) {
+    return (0)
+  }
+  else {return (1)}
+}
+
+FizzBuzz <- function (x) {
+  x <- suppressWarnings(as.numeric(x))
+  for (a in x) {
+    if (check_candidate(a) == 0){
+      print("Please enter finite integer values.")
+    }
+    if (check_candidate(a) == 1) {
+      a = as.integer(a)
+      if (check_three_multiples(a) && check_five_multiples(a)) 
+        {print("FizzBuzz")}
+      else if (check_three_multiples(a) && !check_five_multiples(a)) 
+        {print("Fizz")}
+      else if (check_five_multiples(a) && !check_three_multiples(a)) 
+        {print("Buzz")}
+      else {print(a)}
+    }
+  }
+}
+
+
+```
+
+2. Test the function:
+```{r}
+FizzBuzz(3)
+
+FizzBuzz (5)
+
+FizzBuzz(3.4)
+
+FizzBuzz("asdasdf")
+
+x <- c(0,1,2,3,4,5,15,"a")
+FizzBuzz(x)
+
+y <- c(NA, 5, 10)
+FizzBuzz(y)
+
+z <- c(Inf, 3)
+FizzBuzz(z)
+```
+
+
+## Q3. Rcpp
+
+1. Read the online book [_Rcpp For Everyone_](https://teuder.github.io/rcpp4everyone_en/) by Masaki E. Tsuda.
+
+2. Re-do FizzBuzz test using Rcpp. 
+
+  **Solution**
+
+Approach to the problem:
+
+(Disclaimer: I use help from my friend who is a CS major, from whom I get a lot of suggestions on how to transfer the variable type. However, I code all the stuff myself, and fully understand the mechanism. Forgive me for asking for help, but this problem is beyond my scope of ability. Hope this is not a plagiarism.)
+
+The hardest thing to do FizzBuzz using Rcpp is probably the data type. If we input a data type in R which is a vector that contains both string and int, it is really hard to process in C++ because in C++ the vector does not contain `int` and `char` at the same time. To solve this problem, in C++ script, we first define a `pointer` type variable `string_processed` to catch all the elements from R script. Then, if there's only 0 in the variable, we record 0 with `a`; if there's not 0, we use function `atoi()`. What `atoi()` does is basically trasfer this `pointer` to `int`; if it succeeds, then the variable `temp` that records the trasformation will record the correct integer values, and if it does not succeed, `temp` will record the value 0. We then take out all the `temp` variables that store 0, and claim that they are not integers. Thus by this method, we pick out all the values that are not integers.
+
+The rest of the printing is trivial, following the guide of problem 2. 
+
+
+```{Rcpp}
+#include <Rcpp.h>
+#include <iostream>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+void FizzBuzz_cpp(StringVector input) {
+  int n = input.size();
+  for(int i = 0; i < n; ++i) {
+    char* string_processed = input[i];
+    int a = 0;
+    if (strlen(string_processed) == 1 && string_processed[0] == '0'){
+      a = 0;
+    }
+    else{
+      float temp = atoi(string_processed);
+      if (temp == 0){
+        Rcout << "Please enter finite integer values." << std::endl;
+        continue;
+      }
+      else{
+        a = int(temp);
+      }
+    }
+    if (a % 5 == 0 && a % 3 == 0)
+      Rcout << "FizzBuzz" << std::endl;
+    else if (a % 3 == 0)
+      Rcout << "Fizz" << std::endl;
+    else if (a % 5 == 0)
+      Rcout << "Buzz" << std::endl;
+    else
+      Rcout << a << std::endl;
+  }
+}
+```
+
+
+```{r}
+library(Rcpp)
+
+FizzBuzz_cpp("asdasdf")
+
+a <- c(1,2,3,4,5,15,'asd',NA)
+FizzBuzz_cpp(a)
+
+b <- c(NA, 5, 10)
+FizzBuzz_cpp(b)
+```
