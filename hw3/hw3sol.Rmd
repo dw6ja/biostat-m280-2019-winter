@@ -28,6 +28,10 @@ The `/home/m280data/la_payroll/City_Employee_Payroll.csv` file on teaching serve
 
 0. Publish your Shiny app to <https://www.shinyapps.io> and share the link.
 
+  **Solution**
+
+Since the homework requires the usage of `Shiny` app, we will not complete the homework here on Rmarkdown. Instead we'll create `app.R` for `Shiny` app, and a R script `data.R` to process and tidy the data for each quetions above. 
+
 ## Q2 LA City Parking War
 
 The SQLite database `/home/m280data/la_parking/LA_Parking_Citations.sqlite` on teaching server contains information about parking tickets in LA City. It was downloaded from [LA Open Data Portal](https://data.lacity.org/A-Well-Run-City/Parking-Citations/wjz9-h9np). Connect to the database and answer following questions using plots and summary statistics. In this exercise, you are **not** allowed to load whole data into memory. Use the _transform in database, plot in R_ strategy.
