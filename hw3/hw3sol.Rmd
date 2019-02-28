@@ -30,7 +30,7 @@ The `/home/m280data/la_payroll/City_Employee_Payroll.csv` file on teaching serve
 
   **Solution**
 
-Since the homework requires the usage of `Shiny` app, we will not complete the homework here on Rmarkdown. Instead we'll create `app.R` for `Shiny` app, and a R script `data.R` to process and tidy the data for each quetions above. 
+Since the homework requires the usage of `Shiny` app, we will not complete the homework here on Rmarkdown. Instead we'll create `app.R` for `Shiny` app, and a R script `data.R` to process and tidy the data for each quetions above. The reproducible results can be seen in the folder of `./hw3` or use the link `https://dw6ja.shinyapps.io/hw3Shiny/` to see the published results. 
 
 ## Q2 LA City Parking War
 
