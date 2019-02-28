@@ -6,22 +6,28 @@
 
 library(shiny)
 library(ggplot2)
+library(tidyverse)
+library(markdown)
+library(shinythemes)
+
+
 
 q1p1 <- readRDS("q1p1.rds")
 q1p1
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
-   
-   # Application title
-   titlePanel("LA City Payroll by Year"),
-   
-      # Show a plot of the generated distribution
-      mainPanel(
+ui <- navbarPage(
+  theme = shinytheme("sandstone"), 
+  "LA City Employee Payroll",
+  tabPanel(
+    "Total Payroll by LA City",
+    mainPanel(
          plotOutput("q1p1Plot")
       )
    )
 
+  
+)
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
