@@ -9,6 +9,7 @@ library("tidyverse")
 la_payroll <- read.csv("/home/m280data/la_payroll/City_Employee_Payroll.csv")
 head(la_payroll)
 names(la_payroll)
+head(la_payroll, n=10)
 
 #process data for Question 1 part 1
 q1p1_wide <- la_payroll %>% 
@@ -30,4 +31,33 @@ ggplot(data = q1p1) +
 
 #process data for Quetiosn 1 part 2
 q1p2 <- la_payroll %>%
+  select(Year, Department.Title, Job.Class.Title, 
+         Total.Payments, Base.Pay, Overtime.Pay, 
+         Other.Pay..Payroll.Explorer.) %>%
+  mutate(Department = Department.Title, Job = Job.Class.Title, 
+         Total_Payments = Total.Payments, 
+         Base_Payments = Base.Pay, Overtime_Payments = Overtime.Pay, 
+         Other_Payments = Other.Pay..Payroll.Explorer.) %>%
+  select(Year, Department, Job, 
+         Total_Payments, Base_Payments, Overtime_Payments, 
+         Other_Payments)
+
+arrange(q1p2, Year, desc(Total_Payments))  
+write_rds(q1p2, "./hw3/hw3Shiny/q1p2.rds")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
