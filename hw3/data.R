@@ -95,7 +95,21 @@ write_rds(q1p4, "./hw3/hw3Shiny/q1p4.rds")
 
 head(q1p4)
 
-
+#process data for Question 1 part 5 
+q1p5 <- la_payroll %>%
+  select(Year, Department.Title, Job.Class.Title, 
+         Total.Payments, Base.Pay, Overtime.Pay, 
+         Other.Pay..Payroll.Explorer., Average.Health.Cost) %>%
+  group_by(Year, Department.Title) %>%
+  summarise(
+    `Total Payments` = sum(Total.Payments, na.rm = TRUE), 
+    `Base Pay` = sum(Base.Pay, na.rm = TRUE), 
+    `Overtime Pay` = sum(Overtime.Pay, na.rm = TRUE), 
+    `Other Pay` = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE),
+    `Total Health Cost` = sum(Average.Health.Cost, na.rm = TRUE)
+  ) %>%
+  arrange(Year, desc(`Total Health Cost`))
+write_rds(q1p5, "./hw3/hw3Shiny/q1p5.rds")
 
 
 

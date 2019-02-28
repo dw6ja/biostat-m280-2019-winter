@@ -19,6 +19,7 @@ q1p2 <- readRDS("q1p2.rds")
 q1p3_1 <- readRDS("q1p3_1.rds")
 q1p3_2 <- readRDS("q1p3_2.rds")
 q1p4 <- readRDS("q1p4.rds")
+q1p5 <- readRDS("q1p5.rds")
 
 # Define UI for application that draws a histogram
 ui <- navbarPage(
@@ -107,7 +108,31 @@ ui <- navbarPage(
         tableOutput("q1p4Table")
       )
     )
-  ) 
+  ),
+
+#Problem 1 question 5
+tabPanel(
+  "Which Department spends the most health cost?",
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(
+        "department3", 
+        "Choose the number of highest health cost department", 
+        5, 
+        min = 0, 
+        max = 30
+      ), 
+      numericInput(
+        "year4", 
+        "Choose the year", 
+        2017, min = 2013, max = 2017
+      )
+    ), 
+    mainPanel(
+      tableOutput("q1p5Table")
+    )
+  )
+) 
 
 )
 
@@ -135,6 +160,10 @@ server <- function(input, output) {
   
   output$q1p4Table <- renderTable({
     q1p4 %>% filter(Year == input$year3) %>% head(n = input$department2) 
+  })
+  
+  output$q1p5Table <- renderTable({
+    q1p5 %>% filter(Year == input$year4) %>% head(n = input$department3) 
   })
   
 }
