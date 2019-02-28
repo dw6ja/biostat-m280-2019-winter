@@ -59,6 +59,8 @@ q1p3_1 <- la_payroll %>%
   ) %>%
   arrange(Year, desc(`Mean Total Payments`))
 write_rds(q1p3_1, "./hw3/hw3Shiny/q1p3_1.rds")
+head(q1p3_1, 10)
+
 
 q1p3_2 <- la_payroll %>%
   select(Year, Department.Title, Job.Class.Title, 
@@ -73,7 +75,23 @@ q1p3_2 <- la_payroll %>%
   ) %>%
   arrange(Year, desc(`Median Total Payments`))
 write_rds(q1p3_2, "./hw3/hw3Shiny/q1p3_2.rds")
+head(q1p3_2)
 
+#process data for Question 1 part 3 
+q1p4 <- la_payroll %>%
+  select(Year, Department.Title, Job.Class.Title, 
+         Total.Payments, Base.Pay, Overtime.Pay, 
+         Other.Pay..Payroll.Explorer., Average.Benefit.Cost) %>%
+  group_by(Year, Department.Title) %>%
+  summarise(
+    `Total Payments` = sum(Total.Payments, na.rm = TRUE), 
+    `Base Pay` = sum(Base.Pay, na.rm = TRUE), 
+    `Overtime Pay` = sum(Overtime.Pay, na.rm = TRUE), 
+    `Other Pay` = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE),
+    `Total Cost` = sum(Average.Benefit.Cost, na.rm = TRUE)
+  ) %>%
+  arrange(Year, desc(`Total Cost`))
+write_rds(q1p4, "./hw3/hw3Shiny/q1p4.rds")
 
 
 
