@@ -17,12 +17,12 @@ q1p1_wide <- la_payroll %>%
          Other.Pay..Payroll.Explorer.)  %>% 
   group_by(Year) %>%
   summarise(
-    Total_Payments = sum(Total.Payments, na.rm = TRUE), 
-    Base_Pay = sum(Base.Pay, na.rm = TRUE), 
-    Overtime_Pay = sum(Overtime.Pay, na.rm = TRUE), 
-    Other_Pay = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
+    `Total Payments` = sum(Total.Payments, na.rm = TRUE), 
+    `Base Pay` = sum(Base.Pay, na.rm = TRUE), 
+    `Overtime Pay` = sum(Overtime.Pay, na.rm = TRUE), 
+    `Other Pay` = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
   )
-q1p1 <- gather(q1p1_wide, Base_Pay:Other_Pay, key = 'class', value = 'payments')
+q1p1 <- gather(q1p1_wide, `Base Pay`:`Other Pay`, key = 'class', value = 'payments')
 q1p1
 write_rds(q1p1, "./hw3/hw3Shiny/q1p1.rds")
 ggplot(data = q1p1) +
@@ -35,31 +35,44 @@ q1p2 <- la_payroll %>%
          Total.Payments, Base.Pay, Overtime.Pay, 
          Other.Pay..Payroll.Explorer.) %>%
   mutate(Department = Department.Title, Job = Job.Class.Title, 
-         Total_Payments = Total.Payments, 
-         Base_Payments = Base.Pay, Overtime_Payments = Overtime.Pay, 
-         Other_Payments = Other.Pay..Payroll.Explorer.) %>%
+         `Total Payments` = Total.Payments, 
+         `Base Payments` = Base.Pay, `Overtime Payments` = Overtime.Pay, 
+         `Other Payments` = Other.Pay..Payroll.Explorer.) %>%
   select(Year, Department, Job, 
-         Total_Payments, Base_Payments, Overtime_Payments, 
-         Other_Payments) %>%
-  arrange(Year, desc(Total_Payments))  
+         `Total Payments`, `Base Payments`, `Overtime Payments`, 
+         `Other Payments`) %>%
+  arrange(Year, desc(`Total Payments`))  
 
 write_rds(q1p2, "./hw3/hw3Shiny/q1p2.rds")
 
-#process data for Question 1 part 2 
-q1p3 <- la_payroll %>%
+#process data for Question 1 part 3 
+q1p3_1 <- la_payroll %>%
   select(Year, Department.Title, Job.Class.Title, 
          Total.Payments, Base.Pay, Overtime.Pay, 
          Other.Pay..Payroll.Explorer.) %>%
   group_by(Year, Department.Title) %>%
   summarise(
-    Total_Payments = sum(Total.Payments, na.rm = TRUE), 
-    Base_Pay = sum(Base.Pay, na.rm = TRUE), 
-    Overtime_Pay = sum(Overtime.Pay, na.rm = TRUE), 
-    Other_Pay = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
+    `Mean Total Payments` = mean(Total.Payments, na.rm = TRUE), 
+    `Mean Base Payments` = mean(Base.Pay, na.rm = TRUE), 
+    `Mean Overtime Payments` = mean(Overtime.Pay, na.rm = TRUE), 
+    `Mean Other Payments` = mean(Other.Pay..Payroll.Explorer., na.rm = TRUE)
   ) %>%
-  arrange(Year, desc(Total_Payments))
+  arrange(Year, desc(`Mean Total Payments`))
+write_rds(q1p3_1, "./hw3/hw3Shiny/q1p3_1.rds")
 
-head(q1p3)
+q1p3_2 <- la_payroll %>%
+  select(Year, Department.Title, Job.Class.Title, 
+         Total.Payments, Base.Pay, Overtime.Pay, 
+         Other.Pay..Payroll.Explorer.) %>%
+  group_by(Year, Department.Title) %>%
+  summarise(
+    `Median Total Payments` = median(Total.Payments, na.rm = TRUE), 
+    `Median Base Payments` = median(Base.Pay, na.rm = TRUE), 
+    `Median Overtime Payments` = median(Overtime.Pay, na.rm = TRUE), 
+    `Median Other Payments` = median(Other.Pay..Payroll.Explorer., na.rm = TRUE)
+  ) %>%
+  arrange(Year, desc(`Median Total Payments`))
+write_rds(q1p3_2, "./hw3/hw3Shiny/q1p3_2.rds")
 
 
 
