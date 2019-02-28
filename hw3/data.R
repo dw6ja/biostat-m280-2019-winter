@@ -40,10 +40,26 @@ q1p2 <- la_payroll %>%
          Other_Payments = Other.Pay..Payroll.Explorer.) %>%
   select(Year, Department, Job, 
          Total_Payments, Base_Payments, Overtime_Payments, 
-         Other_Payments)
+         Other_Payments) %>%
+  arrange(Year, desc(Total_Payments))  
 
-arrange(q1p2, Year, desc(Total_Payments))  
 write_rds(q1p2, "./hw3/hw3Shiny/q1p2.rds")
+
+#process data for Question 1 part 2 
+q1p3 <- la_payroll %>%
+  select(Year, Department.Title, Job.Class.Title, 
+         Total.Payments, Base.Pay, Overtime.Pay, 
+         Other.Pay..Payroll.Explorer.) %>%
+  group_by(Year, Department.Title) %>%
+  summarise(
+    Total_Payments = sum(Total.Payments, na.rm = TRUE), 
+    Base_Pay = sum(Base.Pay, na.rm = TRUE), 
+    Overtime_Pay = sum(Overtime.Pay, na.rm = TRUE), 
+    Other_Pay = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
+  ) %>%
+  arrange(Year, desc(Total_Payments))
+
+head(q1p3)
 
 
 
