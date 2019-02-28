@@ -77,7 +77,7 @@ q1p3_2 <- la_payroll %>%
 write_rds(q1p3_2, "./hw3/hw3Shiny/q1p3_2.rds")
 head(q1p3_2)
 
-#process data for Question 1 part 3 
+#process data for Question 1 part 4 
 q1p4 <- la_payroll %>%
   select(Year, Department.Title, Job.Class.Title, 
          Total.Payments, Base.Pay, Overtime.Pay, 
@@ -92,6 +92,8 @@ q1p4 <- la_payroll %>%
   ) %>%
   arrange(Year, desc(`Total Cost`))
 write_rds(q1p4, "./hw3/hw3Shiny/q1p4.rds")
+
+head(q1p4)
 
 
 
