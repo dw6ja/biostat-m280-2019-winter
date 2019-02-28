@@ -8,12 +8,16 @@
 #
 
 library(shiny)
+library(ggplot2)
+
+q1p1 <- readRDS("./data/q1p1.rds")
+q1p1
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
    
    # Application title
-   titlePanel("Old Faithful Geyser Data"),
+   titlePanel("LA City Payroll by Year"),
    
    # Sidebar with a slider input for number of bins 
    sidebarLayout(
@@ -27,7 +31,7 @@ ui <- fluidPage(
       
       # Show a plot of the generated distribution
       mainPanel(
-         plotOutput("distPlot")
+         plotOutput("plot_q1p1")
       )
    )
 )
@@ -36,15 +40,21 @@ ui <- fluidPage(
 server <- function(input, output) {
    
    output$distPlot <- renderPlot({
+     ggplot(data = q1p1) + 
+       geom_bar(mapping = aes(x = Year, fill = Total_Payments, Base_Pay, 
+                              Overtime_Pay, Other_Pay), position = "dodge")
+     })
+     
+     #renderPlot({
       # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
+     # x    <- q1p1[, 2] 
+      #bins <- seq(min(x), max(x), length.out = input$bins + 1)
       
       # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
-   })
+      #barplot(x, breaks = bins, col = 'darkgray', border = 'white')
+   #})
+#}
 }
-
 # Run the application 
 shinyApp(ui = ui, server = server)
 

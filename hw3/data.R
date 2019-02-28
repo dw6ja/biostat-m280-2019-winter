@@ -11,7 +11,7 @@ head(la_payroll)
 names(la_payroll)
 
 #process data for Question 1 part 1
-q1p1 <- la_payroll %>% 
+q1p1_wide <- la_payroll %>% 
   select(Year, Total.Payments, Base.Pay, Overtime.Pay, 
          Other.Pay..Payroll.Explorer.)  %>% 
   group_by(Year) %>%
@@ -21,4 +21,13 @@ q1p1 <- la_payroll %>%
     Overtime_Pay = sum(Overtime.Pay, na.rm = TRUE), 
     Other_Pay = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
   )
+q1p1 <- gather(q1p1_wide, Base_Pay:Other_Pay, key = 'class', value = 'payments')
 q1p1
+write_rds(q1p1, "./hw3/hw3Shiny/data/q1p1.rds")
+ggplot(data = q1p1) +
+  geom_bar(mapping = aes(x = Year, y = payments, fill = class), 
+           stat = "identity")
+
+#process data for Quetiosn 1 part 2
+q1p2 <- la_payroll %>%
+  
