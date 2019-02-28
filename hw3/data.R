@@ -23,7 +23,7 @@ q1p1_wide <- la_payroll %>%
   )
 q1p1 <- gather(q1p1_wide, Base_Pay:Other_Pay, key = 'class', value = 'payments')
 q1p1
-write_rds(q1p1, "./hw3/hw3Shiny/data/q1p1.rds")
+write_rds(q1p1, "./hw3/hw3Shiny/q1p1.rds")
 ggplot(data = q1p1) +
   geom_bar(mapping = aes(x = Year, y = payments, fill = class), 
            stat = "identity")
