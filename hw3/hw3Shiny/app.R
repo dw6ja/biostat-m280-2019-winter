@@ -13,15 +13,13 @@ library(shinythemes)
 
 
 q1p1 <- readRDS("q1p1.rds")
-q1p1
-
 q1p2 <- readRDS("q1p2.rds")
 q1p3_1 <- readRDS("q1p3_1.rds")
 q1p3_2 <- readRDS("q1p3_2.rds")
 q1p4 <- readRDS("q1p4.rds")
 q1p5 <- readRDS("q1p5.rds")
 
-# Define UI for application that draws a histogram
+
 ui <- navbarPage(
   theme = shinytheme("sandstone"), 
   "LA City Employee Payroll",

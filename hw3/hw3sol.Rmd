@@ -179,7 +179,7 @@ mostcarmake <- citations %>%
 slice(mostcarmake, c(1,n()))
 ```
 
-So as we can see, the car make that has the least of record is `A4`, and the car make that has the most of record is `TOYT`. 
+The car make that has the most of record is `TOYT`. 
 
 4. 
 
