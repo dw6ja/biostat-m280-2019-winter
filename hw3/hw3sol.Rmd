@@ -114,7 +114,6 @@ mosthour <- citations %>%
   arrange(n) %>%
   collect %>%
   slice(c(1,n()))
-
 mosthour
 
 mostweekday <- citations %>%
@@ -125,20 +124,32 @@ mostweekday <- citations %>%
   arrange(n) %>%
   collect %>%
   slice(c(1,n()))
-
 mostweekday
 
 mostmonthday <- citations %>%
-  select(Issue_Wday) %>%
-  filter(!is.na(Issue_Wday)) %>%
-  group_by(Issue_Wday) %>%
+  select(Issue_Day) %>%
+  filter(!is.na(Issue_Day)) %>%
+  group_by(Issue_Day) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
   collect %>%
   slice(c(1,n()))
+mostmonthday
+
+mostmonth <- citations %>%
+  select(Issue_Month) %>%
+  filter(!is.na(Issue_Month)) %>%
+  group_by(Issue_Month) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect %>%
+  slice(c(1,n()))
+mostmonth
 
 
 ```
+
+After running the code above, we get summary tables for every variable on the least and most records. For `Issue_Hour`, the most of records happen at `Hour 12`, and the least of records happen at `Hour 5`. For `weekday`,  the most of records happen at `Wednesday`, and the least of records happen at `Monday`. For `month day`, the most of records happen at `13th`, and the least of records happen at `31st`. For `Month`, the most of records happen at `August`, and the least of records happen at `February`.  
 
 
 
