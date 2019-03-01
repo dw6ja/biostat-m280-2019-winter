@@ -9,7 +9,6 @@ library("tidyverse")
 la_payroll <- read.csv("/home/m280data/la_payroll/City_Employee_Payroll.csv")
 head(la_payroll)
 names(la_payroll)
-head(la_payroll, n=10)
 
 #process data for Question 1 part 1
 q1p1_wide <- la_payroll %>% 
@@ -22,12 +21,9 @@ q1p1_wide <- la_payroll %>%
     `Overtime Pay` = sum(Overtime.Pay, na.rm = TRUE), 
     `Other Pay` = sum(Other.Pay..Payroll.Explorer., na.rm = TRUE)
   )
-q1p1 <- gather(q1p1_wide, `Base Pay`:`Other Pay`, key = 'class', value = 'payments')
-q1p1
+q1p1 <- gather(q1p1_wide, `Base Pay`:`Other Pay`, key = 'class', 
+               value = 'payments')
 write_rds(q1p1, "./hw3/hw3Shiny/q1p1.rds")
-ggplot(data = q1p1) +
-  geom_bar(mapping = aes(x = Year, y = payments, fill = class), 
-           stat = "identity")
 
 #process data for Quetiosn 1 part 2
 q1p2 <- la_payroll %>%
@@ -59,7 +55,7 @@ q1p3_1 <- la_payroll %>%
   ) %>%
   arrange(Year, desc(`Mean Total Payments`))
 write_rds(q1p3_1, "./hw3/hw3Shiny/q1p3_1.rds")
-head(q1p3_1, 10)
+
 
 
 q1p3_2 <- la_payroll %>%
@@ -75,7 +71,7 @@ q1p3_2 <- la_payroll %>%
   ) %>%
   arrange(Year, desc(`Median Total Payments`))
 write_rds(q1p3_2, "./hw3/hw3Shiny/q1p3_2.rds")
-head(q1p3_2)
+
 
 #process data for Question 1 part 4 
 q1p4 <- la_payroll %>%
