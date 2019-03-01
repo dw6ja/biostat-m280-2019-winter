@@ -92,10 +92,13 @@ mostyear <- citations %>%
   filter(!is.na(Issue_Year)) %>%
   group_by(Issue_Year) %>%
   summarise(n = n()) %>%
-  arrange(desc(n)) %>%
-  head()
+  arrange(n) %>%
+  collect()
 
-mostyear
+ggplot(data = mostyear) +
+  geom_bar(mapping = aes(x = Issue_Year, y = n), stat = 'identity')
+
+slice(mostyear, n())
 ```
 
 After running the code above, we get the answer. There are in total `7656418` tickets in the record. The time period spans from `2015/7/2 1:00` to `2019/1/25 23:58`. The year that most of the tickects are assigned is `2017`, when 2235243 tickets are in the record.
@@ -109,9 +112,13 @@ mosthour <- citations %>%
   group_by(Issue_Hour) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
-  collect %>%
-  slice(c(1,n()))
-mosthour
+  collect()
+
+ggplot(data = mosthour) +
+  geom_bar(mapping = aes(x = Issue_Hour, y = n), stat = 'identity')
+  
+slice(mosthour, c(1,n()))
+
 
 mostweekday <- citations %>%
   select(Issue_Wday) %>%
@@ -119,9 +126,13 @@ mostweekday <- citations %>%
   group_by(Issue_Wday) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
-  collect %>%
-  slice(c(1,n()))
-mostweekday
+  collect()
+
+ggplot(data = mostweekday) +
+  geom_bar(mapping = aes(x = Issue_Wday, y = n), stat = 'identity')
+
+slice(mostweekday, c(1,n()))
+
 
 mostmonthday <- citations %>%
   select(Issue_Day) %>%
@@ -129,9 +140,12 @@ mostmonthday <- citations %>%
   group_by(Issue_Day) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
-  collect %>%
-  slice(c(1,n()))
-mostmonthday
+  collect()
+
+ggplot(data = mostmonthday) +
+  geom_bar(mapping = aes(x = Issue_Day, y = n), stat = 'identity')
+
+slice(mostmonthday, c(1,n()))
 
 mostmonth <- citations %>%
   select(Issue_Month) %>%
@@ -139,9 +153,12 @@ mostmonth <- citations %>%
   group_by(Issue_Month) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
-  collect %>%
-  slice(c(1,n()))
-mostmonth
+  collect()
+
+ggplot(data = mostmonth) +
+  geom_bar(mapping = aes(x = Issue_Month, y = n), stat = 'identity')
+
+slice(mostmonth, c(1,n()))
 
 
 ```
@@ -149,6 +166,7 @@ mostmonth
 After running the code above, we get summary tables for every variable on the least and most records. For `Issue_Hour`, the most of records happen at `Hour 12`, and the least of records happen at `Hour 5`. For `weekday`,  the most of records happen at `Wednesday`, and the least of records happen at `Monday`. For `month day`, the most of records happen at `13th`, and the least of records happen at `31st`. For `Month`, the most of records happen at `August`, and the least of records happen at `February`.  
 
 3. 
+
 ```{r}
 mostcarmake <- citations %>%
   select(Make) %>%
@@ -156,15 +174,42 @@ mostcarmake <- citations %>%
   group_by(Make) %>%
   summarise(n = n()) %>%
   arrange(n) %>%
-  collect
-
-ggplot(data = mostcarmake) +
-  geom_bar(mapping = aes(x = Make, y = n), stat = 'identity')
+  collect()
 
 slice(mostcarmake, c(1,n()))
 ```
 
 So as we can see, the car make that has the least of record is `A4`, and the car make that has the most of record is `TOYT`. 
+
+4. 
+
+```{r}
+mostcolor <- citations %>%
+  select(Color) %>%
+  filter(!is.na(Color)) %>%
+  group_by(Color) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+nrow(mostcolor)
+slice(mostcolor, c(1,n()))
+```
+
+After running the above code, we get there are 103 different colors of cars that are ticketed, and the most ticketed color of cars is black.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
