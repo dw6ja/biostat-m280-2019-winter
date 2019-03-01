@@ -64,6 +64,7 @@ library("DBI")
 library("RSQLite")
 library("tidyverse")
 library("lubridate")
+library("ggplot2")
 
 db <- dbConnect(RSQLite::SQLite(), dbname = "./LAParkingCitations.sqlite")
 dbListTables(db)
@@ -101,10 +102,6 @@ After running the code above, we get the answer. There are in total `7656418` ti
 
 2. To find which hour, weekday, month day and month that you are most likely or least likely to be ticketed, find the variable that has the most records. 
 ```{r}
-library("DBI")
-library("RSQLite")
-library("tidyverse")
-library("lubridate")
 
 mosthour <- citations %>%
   select(Issue_Hour) %>%
@@ -151,7 +148,23 @@ mostmonth
 
 After running the code above, we get summary tables for every variable on the least and most records. For `Issue_Hour`, the most of records happen at `Hour 12`, and the least of records happen at `Hour 5`. For `weekday`,  the most of records happen at `Wednesday`, and the least of records happen at `Monday`. For `month day`, the most of records happen at `13th`, and the least of records happen at `31st`. For `Month`, the most of records happen at `August`, and the least of records happen at `February`.  
 
+3. 
+```{r}
+mostcarmake <- citations %>%
+  select(Make) %>%
+  filter(!is.na(Make)) %>%
+  group_by(Make) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect
 
+ggplot(data = mostcarmake) +
+  geom_bar(mapping = aes(x = Make, y = n), stat = 'identity')
+
+slice(mostcarmake, c(1,n()))
+```
+
+So as we can see, the car make that has the least of record is `A4`, and the car make that has the most of record is `TOYT`. 
 
 
 
