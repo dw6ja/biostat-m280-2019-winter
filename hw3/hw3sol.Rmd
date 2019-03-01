@@ -198,9 +198,43 @@ slice(mostcolor, c(1,n()))
 
 After running the above code, we get there are 103 different colors of cars that are ticketed, and the most ticketed color of cars is black.
 
+5. 
 
+```{r}
+mostviolationtype <- citations %>%
+  select(Violation_Description) %>%
+  filter(!is.na(Violation_Description)) %>%
+  group_by(Violation_Description) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
 
+slice(mostviolationtype, c(1,n()))
 
+```
+
+From the result, we know that the most typical type of ticket is the violation of no park/street clean.
+
+6. 
+
+```{r}
+fineamount <- citations %>%
+  select(Issue_Year, Fine_amount) %>%
+  filter(!is.na(Issue_Year), !is.na(Fine_amount), 
+         Issue_Year == 2016 | Issue_Year == 2017 | Issue_Year == 2018) %>%
+  group_by(Issue_Year) %>%
+  summarise(year_fine =  sum(Fine_amount, na.rm = TRUE)) %>%
+  collect()
+
+ggplot(data = fineamount) +
+  geom_bar(mapping = aes(x = Issue_Year, y = year_fine), stat = 'identity')
+
+print(fineamount)
+```
+
+We get the results we want from above table.
+
+7. Unfortunately(or fortunately?), I don't have a car to be ticketed. Thus I cannot find my ticket that in this record.
 
 
 
