@@ -1,0 +1,249 @@
+---
+title: "Biostat M280 Homework 3"
+subtitle: Due Mar 1 @ 11:59PM
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Use tidyverse and bash to explore following two data sets.
+
+## Q1 LA City Employee Payroll
+
+The `/home/m280data/la_payroll/City_Employee_Payroll.csv` file on teaching server contains payroll information of LA City employees in years 2013-2018. It was downloaded from [LA City Controller's Office](https://controllerdata.lacity.org/Payroll/City-Employee-Payroll/pazn-qyym). Make a Shiny app to facilitate visualization of this data. 
+
+1. For efficiency of the Shiny app, you should first pre-process, pare down, tidy, and save the data, e.g., as a compressed RDS file, to be used in the app.
+
+0. **Total payroll by LA City**. Visualize the total LA City payroll of each year, with breakdown into base pay, overtime pay, and other pay.
+
+0. **Who earned most?** Visualize the payroll information (total payment with breakdown into base pay, overtime pay, and other pay, Department, Job Title) of the top $n$ highest paid LA City employees in a specific year. User specifies $n$ (default 10) and year (default 2017).
+
+0. **Which departments earn most?** Visualize the mean or median payroll, with breakdown into base pay, overtime pay, and other pay, of top $n$ earning departments. User specifies $n$ (default 5), year (default 2017), and method (mean or median, default median).
+
+0. **Which departments cost most?** Visualize the total payroll, with breakdown into base pay, overtime pay, and other pay, of top $n$ expensive departments. User specifies $n$ (default 5) and year (default 2017).
+
+0. Visualize any other information you are interested in.
+
+0. Publish your Shiny app to <https://www.shinyapps.io> and share the link.
+
+  **Solution**
+
+Since the homework requires the usage of `Shiny` app, we will not complete the homework here on Rmarkdown. Instead we'll create `app.R` for `Shiny` app, and a R script `data.R` to process and tidy the data for each quetions above. The reproducible results can be seen in the folder of `./hw3` or use the link `https://dw6ja.shinyapps.io/hw3Shiny/` to see the published results. 
+
+## Q2 LA City Parking War
+
+The SQLite database `/home/m280data/la_parking/LA_Parking_Citations.sqlite` on teaching server contains information about parking tickets in LA City. It was downloaded from [LA Open Data Portal](https://data.lacity.org/A-Well-Run-City/Parking-Citations/wjz9-h9np). Connect to the database and answer following questions using plots and summary statistics. In this exercise, you are **not** allowed to load whole data into memory. Use the _transform in database, plot in R_ strategy.
+
+1. How many tickets are in this data set? Which time period do these tickets span? Which years have most data?
+
+0. When (which hour, weekday, month day, and month) are you most likely to get a ticket and when are you least likely to get a ticket?
+
+0. Which car makes received most citations?
+
+0. How many different colors of cars were ticketed? Which color attracted most tickets?
+
+0. What are the most common ticket types?
+
+0. How much money was collected on parking tickets in 2016, 2017 and 2018?
+
+0. If you've been ticketed in LA County, did you find your ticket in this data set?
+
+0. Read the blog <http://www.brettrics.com/9-million-parking-tickets-la/> and try to reproduce plots using your data.
+
+  ``Solution``
+1. First we want to create a symbolic link to the database file using `bash` command.
+```{bash}
+ln -sf /home/m280data/la_parking/LA_Parking_Citations.sqlite LAParkingCitations.sqlite
+```
+
+Now we can access the database in R.
+```{r}
+library("DBI")
+library("RSQLite")
+library("tidyverse")
+library("lubridate")
+library("ggplot2")
+
+db <- dbConnect(RSQLite::SQLite(), dbname = "./LAParkingCitations.sqlite")
+dbListTables(db)
+
+citations <- dplyr::tbl(db, "latix")
+str(citations)
+
+citations %>% head(n = 10)
+
+ticketnumber <- citations %>% select(Ticket_number) %>% summarise(n = n())
+ticketnumber
+
+
+timespan <- citations %>% 
+  select(Issue_Year, Issue_Month, Issue_Day, Issue_Hour, Issue_Minute) %>%
+  filter(!is.na(Issue_Year), !is.na(Issue_Month), !is.na(Issue_Day), 
+         !is.na(Issue_Hour), !is.na(Issue_Minute)) %>%
+  arrange(Issue_Year, Issue_Month, Issue_Day, Issue_Hour, Issue_Minute) %>%
+  collect() 
+
+slice(timespan, c(1, n()))
+
+mostyear <- citations %>%
+  select(Issue_Year) %>%
+  filter(!is.na(Issue_Year)) %>%
+  group_by(Issue_Year) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+ggplot(data = mostyear) +
+  geom_bar(mapping = aes(x = Issue_Year, y = n), stat = 'identity')
+
+slice(mostyear, n())
+```
+
+After running the code above, we get the answer. There are in total `7656418` tickets in the record. The time period spans from `2015/7/2 1:00` to `2019/1/25 23:58`. The year that most of the tickects are assigned is `2017`, when 2235243 tickets are in the record.
+
+2. To find which hour, weekday, month day and month that you are most likely or least likely to be ticketed, find the variable that has the most records. 
+```{r}
+
+mosthour <- citations %>%
+  select(Issue_Hour) %>%
+  filter(!is.na(Issue_Hour)) %>%
+  group_by(Issue_Hour) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+ggplot(data = mosthour) +
+  geom_bar(mapping = aes(x = Issue_Hour, y = n), stat = 'identity')
+  
+slice(mosthour, c(1,n()))
+
+
+mostweekday <- citations %>%
+  select(Issue_Wday) %>%
+  filter(!is.na(Issue_Wday)) %>%
+  group_by(Issue_Wday) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+ggplot(data = mostweekday) +
+  geom_bar(mapping = aes(x = Issue_Wday, y = n), stat = 'identity')
+
+slice(mostweekday, c(1,n()))
+
+
+mostmonthday <- citations %>%
+  select(Issue_Day) %>%
+  filter(!is.na(Issue_Day)) %>%
+  group_by(Issue_Day) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+ggplot(data = mostmonthday) +
+  geom_bar(mapping = aes(x = Issue_Day, y = n), stat = 'identity')
+
+slice(mostmonthday, c(1,n()))
+
+mostmonth <- citations %>%
+  select(Issue_Month) %>%
+  filter(!is.na(Issue_Month)) %>%
+  group_by(Issue_Month) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+ggplot(data = mostmonth) +
+  geom_bar(mapping = aes(x = Issue_Month, y = n), stat = 'identity')
+
+slice(mostmonth, c(1,n()))
+
+
+```
+
+After running the code above, we get summary tables for every variable on the least and most records. For `Issue_Hour`, the most of records happen at `Hour 12`, and the least of records happen at `Hour 5`. For `weekday`,  the most of records happen at `Wednesday`, and the least of records happen at `Monday`. For `month day`, the most of records happen at `13th`, and the least of records happen at `31st`. For `Month`, the most of records happen at `August`, and the least of records happen at `February`.  
+
+3. 
+
+```{r}
+mostcarmake <- citations %>%
+  select(Make) %>%
+  filter(!is.na(Make)) %>%
+  group_by(Make) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+slice(mostcarmake, c(1,n()))
+```
+
+The car make that has the most of record is `TOYT`. 
+
+4. 
+
+```{r}
+mostcolor <- citations %>%
+  select(Color) %>%
+  filter(!is.na(Color)) %>%
+  group_by(Color) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+nrow(mostcolor)
+slice(mostcolor, c(1,n()))
+```
+
+After running the above code, we get there are 103 different colors of cars that are ticketed, and the most ticketed color of cars is black.
+
+5. 
+
+```{r}
+mostviolationtype <- citations %>%
+  select(Violation_Description) %>%
+  filter(!is.na(Violation_Description)) %>%
+  group_by(Violation_Description) %>%
+  summarise(n = n()) %>%
+  arrange(n) %>%
+  collect()
+
+slice(mostviolationtype, c(1,n()))
+
+```
+
+From the result, we know that the most typical type of ticket is the violation of no park/street clean.
+
+6. 
+
+```{r}
+fineamount <- citations %>%
+  select(Issue_Year, Fine_amount) %>%
+  filter(!is.na(Issue_Year), !is.na(Fine_amount), 
+         Issue_Year == 2016 | Issue_Year == 2017 | Issue_Year == 2018) %>%
+  group_by(Issue_Year) %>%
+  summarise(year_fine =  sum(Fine_amount, na.rm = TRUE)) %>%
+  collect()
+
+ggplot(data = fineamount) +
+  geom_bar(mapping = aes(x = Issue_Year, y = year_fine), stat = 'identity')
+
+print(fineamount)
+```
+
+We get the results we want from above table.
+
+7. Unfortunately(or fortunately?), I don't have a car to be ticketed. Thus I cannot find my ticket that in this record.
+
+
+
+
+
+
+
+
+
+
+
+
