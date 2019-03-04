@@ -55,7 +55,7 @@
 
 -   Are the materials (files and instructions) submitted to the `master` branch sufficient for reproducing all the results?
 
-   Yes. 
+    Yes. 
    
 -   If necessary, are there clear instructions, either in report or in a separate file, how to reproduce the results?
 
